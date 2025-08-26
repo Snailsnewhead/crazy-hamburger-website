@@ -5,8 +5,8 @@ export default function About() {
       <p className="mb-2">Name: Tan Dung Nguyen</p>
       <p className="mb-4">Student Number: 22162861</p>
       <h2 className="text-xl mb-2">How to Use This Website</h2>
-      <video controls width="600" className="mb-4" aria-label="Instructional video">
-        <source src="/your-video.mp4" type="video/mp4" />
+      <video controls width="1300" className="mb-4" aria-label="Instructional video">
+        <source src="/walkthrough.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </main>
