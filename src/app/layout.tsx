@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {/* Header */}
           <header className="fixed top-0 left-0 right-0 bg-gray-200 dark:bg-gray-800 p-4 flex justify-between items-center z-10">
-            <div className="absolute top-4 left-15 text-sm text-black dark:text-white">{studentNumber}</div>
+            <div className="absolute top-4 left-20 text-sm text-black dark:text-white">{studentNumber}</div>
             <nav>
               <button
                 onClick={toggleMenu}
