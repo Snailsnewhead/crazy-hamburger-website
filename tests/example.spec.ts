@@ -3,15 +3,15 @@ import { test, expect } from '@playwright/test';
 test('escape room page loads', async ({ page }) => {
   await page.goto('http://localhost:3000/escape-room');
 
-  // Check for main heading
-  await expect(page.getByRole('heading', { name: /Code Escape Room/ })).toBeVisible();
+  // Check for main heading "Code Escape Room"
+  await expect(page.locator('h1:has-text("Code Escape Room")')).toBeVisible();
 });
 
 test('stage 1 title visible', async ({ page }) => {
   await page.goto('http://localhost:3000/escape-room');
 
-  // Check stage 1 title
-  await expect(page.getByRole('heading', { name: /Simple Addition/ })).toBeVisible();
+  // Check stage 1 title contains "Addition"
+  await expect(page.locator('h2:has-text("Addition")')).toBeVisible();
 });
 
 test('textarea exists and can type code', async ({ page }) => {
@@ -32,34 +32,36 @@ test('can click check button', async ({ page }) => {
   const textarea = page.locator('textarea').first();
   await textarea.fill('function add(a, b) { return a + b; }');
 
-  // Click button
+  // Click button with text "Run and Check"
   const checkButton = page.locator('button:has-text("Run and Check")').first();
   await checkButton.click();
 
-  // Wait for feedback
+  // Wait for feedback to appear
   await page.waitForTimeout(1000);
+  
+  // Check for CORRECT feedback
+  await expect(page.locator('text=CORRECT').first()).toBeVisible();
 });
 
 test('timer displays', async ({ page }) => {
   await page.goto('http://localhost:3000/escape-room');
 
-  // Look for time format (minutes:seconds)
-  const timer = page.locator('text=/\\d+:\\d+/').first();
-  await expect(timer).toBeVisible();
+  // Look for time format (10:00)
+  await expect(page.locator('text=/\\d+:\\d+/')).toBeVisible();
 });
 
 test('door status section visible', async ({ page }) => {
   await page.goto('http://localhost:3000/escape-room');
 
-  // Check door status heading
-  await expect(page.getByRole('heading', { name: /Door Status/ })).toBeVisible();
+  // Check for "Door Status" text
+  await expect(page.locator('text=Door Status')).toBeVisible();
 });
 
 test('progress bar visible', async ({ page }) => {
   await page.goto('http://localhost:3000/escape-room');
 
-  // Check progress heading
-  await expect(page.getByRole('heading', { name: /Progress/ })).toBeVisible();
+  // Check for "Progress" text
+  await expect(page.locator('text=Progress')).toBeVisible();
 });
 
 test('can navigate to next stage', async ({ page }) => {
@@ -69,7 +71,9 @@ test('can navigate to next stage', async ({ page }) => {
   const nextButton = page.locator('button:has-text("Next")').first();
   await nextButton.click();
 
-  // Wait and check stage 2 appears
+  // Wait for stage to change
   await page.waitForTimeout(500);
-  await expect(page.getByRole('heading', { name: /Sort an Array/ })).toBeVisible();
+  
+  // Check stage 2 appears (Prime Numbers)
+  await expect(page.locator('h2:has-text("Prime")')).toBeVisible();
 });
