@@ -1,20 +1,92 @@
-# LTU Tab Generator
-Next.js app for generating HTML+JS tabs for Moodle LMS.
+# Code Escape Room
+
+Interactive coding challenge application for learning JavaScript fundamentals.
 
 ## Features
-- Pages: Home, About, Escape Room, Coding Races, Court Room
-- Header: Hamburger menu with CSS transform
-- Footer: Name, student number, date
-- Themes: Dark/Light/System
-- Cookies: Navigation persistence
-- Tabs: Up to 15, localStorage, inline CSS output
-- Accessibility: Keyboard-friendly
+
+- 4 coding challenges (Addition, Sorting, Prime Numbers, String Reversal)
+- Real-time code execution and validation
+- Timer and progress tracking
+- Save results to database
+- Dark theme UI
 
 ## Setup
+
+### Prerequisites
+- Node.js 18+
+- Docker (for PostgreSQL)
+
+### Installation
+
 ```bash
+# Clone repository
+git clone https://github.com/Snailsnewhead/crazy-hamburger-website.git
+cd crazy-hamburger-website
+
+# Install frontend dependencies
 npm install
-<<<<<<< HEAD
+
+# Install backend dependencies
+cd backend
+npm install
+cd ..
+```
+
+### Start Database
+
+```bash
+docker run --name escape-room-db -e POSTGRES_PASSWORD=password -e POSTGRES_DB=escaperoom -p 5432:5432 -d postgres:15
+```
+
+### Initialize Database
+
+```bash
+cd backend
+npx prisma db push
+cd ..
+```
+
+### Run Application
+
+Open 3 terminals:
+
+**Terminal 1 - Frontend:**
+```bash
 npm run dev
-=======
+```
+
+**Terminal 2 - Backend:**
+```bash
+cd backend
 npm run dev
->>>>>>> 1c5d013b5a6efe4397050e35aee9a5c10800232b
+```
+
+Access app at `http://localhost:3000`
+
+## Testing
+
+```bash
+cd backend
+npm test
+```
+
+## API Endpoints
+
+- `GET /api/health` - Health check
+- `POST /api/attempts` - Save results
+- `GET /api/attempts` - Get results
+
+## Project Structure
+
+```
+├── src/app/escape-room/page.tsx    (Frontend)
+├── backend/
+│   ├── server.js                   (API)
+│   ├── prisma/schema.prisma        (Database)
+│   └── __tests__/challenges.test.js (Tests)
+└── README.md
+```
+
+## Author
+
+La Trobe University Student
