@@ -76,17 +76,31 @@ export default function EscapeRoom() {
     setCodeOutput(output);
 
     try {
-      const func = new Function('arr', code + '; return arr;');
-      const testArr = [5, 2, 8, 1, 9];
-      const result = func([...testArr]);
-      const isSorted = result.every((v: number, i: number, a: number[]) => i === 0 || v >= a[i - 1]);
+      const func = new Function(code + '; return isPrime;');
+      const isPrimeFunc = func();
       
-      if (isSorted && result.length === 5) {
-        setFeedback('CORRECT: Array sorted successfully!');
+      const testCases = [
+        { input: 2, expected: true },
+        { input: 4, expected: false },
+        { input: 7, expected: true },
+        { input: 10, expected: false }
+      ];
+
+      let allCorrect = true;
+      for (const test of testCases) {
+        const result = isPrimeFunc(test.input);
+        if (result !== test.expected) {
+          allCorrect = false;
+          break;
+        }
+      }
+
+      if (allCorrect) {
+        setFeedback('CORRECT: Prime number checker works!');
         setCompletedStages(new Set([...completedStages, 1]));
         setUserAnswers({ ...userAnswers, 1: code });
       } else {
-        setFeedback('INCORRECT: Array is not sorted. Use arr.sort((a, b) => a - b)');
+        setFeedback('INCORRECT: Function should return true for primes (2,3,5,7) and false for non-primes.');
       }
     } catch (error: any) {
       setFeedback(`ERROR: ${error.message}`);
@@ -99,7 +113,7 @@ export default function EscapeRoom() {
     setCodeOutput(output);
 
     try {
-      const func = new Function('num', code + '; return num;');
+      const func = new Function('num', code + '; return isPrime(num);');
       
       const testCases = [
         { input: 2, expected: true },
@@ -134,33 +148,12 @@ export default function EscapeRoom() {
     const output = executeCode(code);
     setCodeOutput(output);
 
-    try {
-      const func = new Function('str', code + '; return str;');
-      
-      const testCases = [
-        { input: 'hello', expected: 'olleh' },
-        { input: 'world', expected: 'dlrow' },
-        { input: 'a', expected: 'a' }
-      ];
-
-      let allCorrect = true;
-      for (const test of testCases) {
-        const result = func(test.input);
-        if (result !== test.expected) {
-          allCorrect = false;
-          break;
-        }
-      }
-
-      if (allCorrect) {
-        setFeedback('CORRECT: String reversal works!');
-        setCompletedStages(new Set([...completedStages, 3]));
-        setUserAnswers({ ...userAnswers, 3: code });
-      } else {
-        setFeedback('INCORRECT: Your function should reverse the string. Try using split, reverse, and join.');
-      }
-    } catch (error: any) {
-      setFeedback(`ERROR: ${error.message}`);
+    if (code.includes("split('')") && code.includes('reverse()') && code.includes("join('')")) {
+      setFeedback('CORRECT: String reversal works!');
+      setCompletedStages(new Set([...completedStages, 3]));
+      setUserAnswers({ ...userAnswers, 3: code });
+    } else {
+      setFeedback('INCORRECT: Use str.split(\'\').reverse().join(\'\')');
     }
   };
 
@@ -203,28 +196,28 @@ export default function EscapeRoom() {
 
   const stages = [
     {
-      title: 'Stage 1: Simple Addition Function',
-      description: 'Write a function that adds two numbers together.',
-      example: 'Example: add(3, 5) should work',
-      hint: 'Write a function called add with two parameters that returns their sum.'
+      title: 'Stage 1: Write Addition Function',
+      description: 'Write a function that adds two numbers and returns the result.',
+      example: 'add(3, 5) should return 8',
+      hint: 'function add(a, b) { return a + b; }'
     },
     {
-      title: 'Stage 2: Sort an Array',
-      description: 'Write code that sorts an array in ascending order.',
-      example: 'Input: [5, 2, 8, 1, 9] Output: [1, 2, 5, 8, 9]',
-      hint: 'Use arr.sort() with a comparison function: (a, b) => a - b'
-    },
-    {
-      title: 'Stage 3: Check if Prime Number',
+      title: 'Stage 2: Check Prime Numbers',
       description: 'Write a function that checks if a number is prime.',
       example: 'isPrime(7) returns true, isPrime(4) returns false',
-      hint: 'A prime number is only divisible by 1 and itself. Numbers less than 2 are not prime.'
+      hint: 'A prime has no divisors except 1 and itself'
+    },
+    {
+      title: 'Stage 3: Sort Array in Ascending Order',
+      description: 'Write code that sorts an array from smallest to largest.',
+      example: 'Input: [5, 2, 8, 1, 9] Output: [1, 2, 5, 8, 9]',
+      hint: 'Use arr.sort((a, b) => a - b)'
     },
     {
       title: 'Stage 4: Reverse a String',
       description: 'Write code that reverses a string.',
       example: 'Input: "hello" Output: "olleh"',
-      hint: 'Use str.split(\'\').reverse().join(\'\') or a loop to reverse.'
+      hint: 'Use str.split(\'\').reverse().join(\'\')'
     }
   ];
 
