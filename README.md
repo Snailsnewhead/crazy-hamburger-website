@@ -89,4 +89,4 @@ npm test
 
 ## Author
 
-La Trobe University Student
+Tan Dung Nguyen
